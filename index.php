@@ -64,3 +64,5 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
 </script>
 
 <?php include("includes/footer.php"); ?>
+// updated for commit history
+

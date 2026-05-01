@@ -1,20 +1,20 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "student_success_tracker");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$result = $conn->query("SELECT * FROM students");
+$result = $conn->query("
+    SELECT a.date, a.status, s.first_name, s.last_name
+    FROM attendance a
+    JOIN students s ON a.student_id = s.student_id
+");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Success Tracker</title>
+    <title>Attendance</title>
     <style>
         body { font-family: Arial; padding: 20px; }
-        table { border-collapse: collapse; width: 60%; }
+        table { border-collapse: collapse; width: 70%; }
         th, td { border: 1px solid #ccc; padding: 8px; }
         th { background: #f2f2f2; }
     </style>
@@ -30,26 +30,22 @@ $result = $conn->query("SELECT * FROM students");
     <a href="analytics.php">Analytics</a>
 </nav>
 
-<h1>Student Success Tracker</h1>
-<h2>Student List (Live Database Data)</h2>
+<h2>Attendance Records</h2>
 
 <table>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Grade Level</th>
-        <th>Enrollment Date</th>
+        <th>Student</th>
+        <th>Date</th>
+        <th>Status</th>
     </tr>
 
     <?php while($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?= $row['student_id'] ?></td>
             <td><?= $row['first_name'] . " " . $row['last_name'] ?></td>
-            <td><?= $row['grade_level'] ?></td>
-            <td><?= $row['enrollment_date'] ?></td>
+            <td><?= $row['date'] ?></td>
+            <td><?= $row['status'] ?></td>
         </tr>
     <?php endwhile; ?>
-
 </table>
 
 </body>

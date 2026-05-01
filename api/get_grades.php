@@ -24,5 +24,8 @@ while ($row = $result->fetch_assoc()) {
     $grades[] = $row;
 }
 
+
+// Updated commit history
+
 echo json_encode($grades);
 ?>

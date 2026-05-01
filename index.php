@@ -1,56 +1,66 @@
+<?php include("includes/header.php"); ?>
+<?php include("includes/db.php"); ?>
+
 <?php
-$conn = new mysqli("localhost", "root", "", "student_success_tracker");
+// Fetch all students
+$sql = "SELECT id, first_name, last_name, grade_level, enrollment_date
+        FROM students
+        ORDER BY id ASC";
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$result = $conn->query("SELECT * FROM students");
+$result = $conn->query($sql);
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Success Tracker</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        table { border-collapse: collapse; width: 60%; }
-        th, td { border: 1px solid #ccc; padding: 8px; }
-        th { background: #f2f2f2; }
-    </style>
-</head>
-
-<body>
-
-<nav style="margin-bottom:20px;">
-    <a href="index.php">Home</a> |
-    <a href="add_student.php">Add Student</a> |
-    <a href="attendance.php">Attendance</a> |
-    <a href="grades.php">Grades</a> |
-    <a href="analytics.php">Analytics</a>
-</nav>
-
-<h1>Student Success Tracker</h1>
 <h2>Student List (Live Database Data)</h2>
 
-<table>
+<!--  SEARCH BAR -->
+<input type="text" id="searchInput" placeholder="Search students..." style="margin-bottom: 15px; padding: 8px; width: 250px;">
+
+<table id="studentTable">
     <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Grade Level</th>
         <th>Enrollment Date</th>
+        <th>Actions</th>
     </tr>
 
-    <?php while($row = $result->fetch_assoc()): ?>
+    <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?= $row['student_id'] ?></td>
-            <td><?= $row['first_name'] . " " . $row['last_name'] ?></td>
+            <td><?= $row['id'] ?></td>
+
+            <!--  CLICKABLE STUDENT PROFILE -->
+            <td>
+                <a href="student.php?id=<?= $row['id'] ?>">
+                    <?= $row['first_name'] . " " . $row['last_name'] ?>
+                </a>
+            </td>
+
             <td><?= $row['grade_level'] ?></td>
             <td><?= $row['enrollment_date'] ?></td>
+
+            <!-- EDIT / DELETE BUTTONS -->
+            <td>
+                <a href="edit_student.php?id=<?= $row['id'] ?>" class="btn-edit">Edit</a>
+                <a href="delete_student.php?id=<?= $row['id'] ?>" class="btn-delete"
+                   onclick="return confirm('Are you sure you want to delete this student?');">
+                   Delete
+                </a>
+            </td>
         </tr>
     <?php endwhile; ?>
-
 </table>
 
-</body>
-</html>
+<!-- SEARCH FILTER SCRIPT -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#studentTable tr:not(:first-child)");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+<?php include("includes/footer.php"); ?>

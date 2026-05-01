@@ -26,3 +26,5 @@ while ($row = $result->fetch_assoc()) {
 
 echo json_encode($attendance);
 ?>
+
+// updated for commit history

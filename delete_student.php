@@ -10,3 +10,5 @@ $stmt->execute();
 header("Location: index.php");
 exit;
 ?>
+
+// Updated to add commit message

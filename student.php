@@ -26,3 +26,5 @@ $student = $stmt->get_result()->fetch_assoc();
 </div>
 
 <?php include("includes/footer.php"); ?>
+
+// Updated to add comit message

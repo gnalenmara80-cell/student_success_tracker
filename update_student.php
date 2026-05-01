@@ -19,3 +19,5 @@ $stmt->execute();
 header("Location: student.php?id=$id");
 exit;
 ?>
+
+// Updated for commit 

@@ -125,3 +125,5 @@ new Chart(document.getElementById('attendanceChart'), {
 
 <?php $conn->close(); ?>
 <?php include("includes/footer.php"); ?>
+
+// updated for commit history

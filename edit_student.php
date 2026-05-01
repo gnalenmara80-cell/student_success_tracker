@@ -31,3 +31,4 @@ $student = $stmt->get_result()->fetch_assoc();
 </form>
 
 <?php include("includes/footer.php"); ?>
+// updated for commit
